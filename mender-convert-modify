@@ -164,6 +164,21 @@ EOF
 
   run_and_log_cmd "sudo mkdir -p work/boot/EFI/BOOT"
   run_and_log_cmd "sudo cp work/${efi_name} -P work/boot/EFI/BOOT/${efi_target_name}"
+
+  # Copy dtb directory to the boot partition for use by the bootloader.
+  if [ -d work/rootfs/boot/dtbs ]; then
+    if ls -d work/rootfs/boot/dtbs/*.dtb > /dev/null; then
+      run_and_log_cmd "cp -r work/rootfs/boot/dtbs work/boot/dtb"
+    else
+      # Copy latest dtb directory.
+      for candidate in $(ls -d work/rootfs/boot/dtbs/* | sort -V -r); do
+        if [ -d $candidate ]; then
+          run_and_log_cmd "cp -r $candidate work/boot/dtb"
+          break
+        fi
+      done
+    fi
+  fi
 fi
 
 run_and_log_cmd "sudo mkdir -p work/rootfs/data/mender"
