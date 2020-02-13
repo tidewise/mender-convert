@@ -141,6 +141,16 @@ MENDER_APT_REPO_URL="${MENDER_STORAGE_URL}/repos/debian"
 # Mender GitHub organization URL prefix
 MENDER_GITHUB_ORG="https://github.com/mendersoftware"
 
+# Whether the first partition of the input image should be ignored.
+#
+# For EFI targets, mender-convert assumes that the first partition of the input
+# image should be used as a base for the boot partition. If it does not exist,
+# mender-convert will create one instead
+#
+# Setting this variable to 1 will force ignoring this partition, instead using
+# the auto-generated one.
+MENDER_SKIP_FIRST_PARTITION=0
+
 # Device file corresponding to the root filesystem partitions, without number.
 MENDER_STORAGE_DEVICE_BASE=/dev/mmcblk0p
 
