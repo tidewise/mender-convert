@@ -135,6 +135,10 @@ MENDER_DTB_NAME=kernel.dtb
 #    https://github.com/intel/bmap-tools
 MENDER_USE_BMAP="n"
 
+# Whether mender-convert should only create the artifact and partition image
+# (n) or also create the whole disk image (y)
+MENDER_CREATE_DISK_IMAGE="y"
+
 # Copy the boot gap, which is the area from sector 1 until first parition,
 # this is done because some images might contain the bootloader embedded here
 # and we need to copy the bootloader to the output image.
