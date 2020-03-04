@@ -95,7 +95,7 @@ run_and_log_cmd "ar -xv ${deb_name}"
 run_and_log_cmd "tar -xf data.tar.xz -C files"
 cd - > /dev/null 2>&1
 
-run_and_log_cmd "sudo rsync --archive --keep-dirlinks --verbose work/mender-deb/files/ work/rootfs/"
+run_and_log_cmd "sudo rsync --archive --chown root:root --keep-dirlinks --verbose work/mender-deb/files/ work/rootfs/"
 
 if [ "${MENDER_ENABLE_SYSTEMD}" == "y" ]; then
   run_and_log_cmd "sudo ln -sf /lib/systemd/system/mender-client.service \
@@ -203,8 +203,8 @@ fi
 
 run_and_log_cmd "echo 'device_type=${device_type}' > work/device_type"
 run_and_log_cmd "sudo install -m 0444 work/device_type work/rootfs/data/mender/"
-run_and_log_cmd "sudo echo 'artifact_name=${MENDER_ARTIFACT_NAME}' \
-  > work/rootfs/etc/mender/artifact_info"
+run_and_log_cmd "echo 'artifact_name=${MENDER_ARTIFACT_NAME}' \
+  | sudo tee work/rootfs/etc/mender/artifact_info"
 
 log_info "Installing a custom /etc/fstab (see work/convert.log for more info)"
 
@@ -237,5 +237,5 @@ user_local_modify
 
 for overlay in "${overlays[@]}"; do
   log_info "Applying rootfs overlay: ${overlay}"
-  run_and_log_cmd "sudo rsync --archive --keep-dirlinks --verbose ${overlay}/ work/rootfs/"
+  run_and_log_cmd "sudo rsync --archive --chown root:root --keep-dirlinks --verbose ${overlay}/ work/rootfs/"
 done
