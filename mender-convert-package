@@ -342,6 +342,7 @@ case "${MENDER_COMPRESS_DISK_IMAGE}" in
         run_and_log_cmd "pxz --best --force ${img_path}"
         ;;
     none)
+        log_info "Not compressing disk image"
         :
         ;;
     *)
