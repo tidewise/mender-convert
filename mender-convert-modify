@@ -245,7 +245,7 @@ log_info "Using data partition device in fstab: $data_part_device"
 
 fstab=$(sed '/\/boot/d' work/rootfs/etc/fstab)
 fstab=$(sed '/.*\s\/\s.*/d' <<< "$fstab")
-cat <<- EOF > work/rootfs/etc/fstab
+cat <<- EOF | sudo tee work/rootfs/etc/fstab
 ${boot_part_device}   ${boot_part_mountpoint}          auto       ${MENDER_BOOT_PART_FSTAB_OPTS}    0  0
 /dev/root            /                    auto       ${MENDER_ROOT_PART_FSTAB_OPTS} 1  ${MENDER_ROOT_PART_FS_PASSNO}
 
