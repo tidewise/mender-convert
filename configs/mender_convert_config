@@ -250,6 +250,9 @@ IMAGE_ROOTFS_EXTRA_SPACE="0"
 # why it is missing a "MENDER_" prefix.
 IMAGE_OVERHEAD_FACTOR="1.5"
 
+# Arguments passed directly to mender-artifact
+MENDER_ARTIFACT_EXTRA_ARGS=""
+
 source configs/mender_grub_config
 
 # Function to create Mender Artifact
@@ -275,5 +278,5 @@ mender_create_artifact() {
       --file work/rootfs.img \
       --output-path ${mender_artifact} \
       --artifact-name ${artifact_name} \
-      ${all_device_types}"
+      ${all_device_types} ${MENDER_ARTIFACT_EXTRA_ARGS}"
 }
